@@ -38,8 +38,13 @@ src/app/
 
 ## ورود پیش‌فرض (بعد از seed شدن بک‌اند)
 
-- ایمیل: `admin@shop.test`
+- ایمیل: `admin@shop.io`
 - رمز عبور: `password`
+
+## پکیج‌های اضافه‌شده
+
+- **سلکت باکس:** [`@ng-select/ng-select`](https://github.com/ng-select/ng-select) نسخه‌ی `^13.x` (سازگار با Angular 18) — پرکاربردترین و باثبات‌ترین کتابخانه‌ی select/autocomplete انگولار، دارای جستجو، Custom Template و چندانتخابی. استایل RTL و هم‌رنگ با تم پروژه در `src/styles.scss` (کلاس `.rtl-select`) اضافه شده و در `order-form.component.ts` (انتخاب مشتری و محصول) به‌کار رفته است. برای استفاده در فرم‌های دیگر همین الگو را با `NgSelectModule` تکرار کنید.
+- **دیت‌پیکر شمسی:** [`ng-persian-datepicker`](https://github.com/SaeedDev94/ng-persian-datepicker) نسخه‌ی `^9.x` به همراه `jalali-ts` (پکیج تاریخ شمسی مورد نیازش) اضافه شده است. بعد از `npm install`، حتماً README نسخه‌ی نصب‌شده در `node_modules/ng-persian-datepicker` را چک کنید تا API دقیق (اسم Directive/Component و رویدادها) با نسخه‌ی نصب‌شده مطابقت داشته باشد، چون بین نسخه‌های این پکیج تغییر کرده است.
 
 ## نکات پیاده‌سازی
 

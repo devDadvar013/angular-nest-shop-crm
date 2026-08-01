@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { CustomersService } from '../../../core/services/customers.service';
 import { ProductsService } from '../../../core/services/products.service';
 import { OrdersService } from '../../../core/services/orders.service';
@@ -17,7 +18,7 @@ interface DraftLine {
 @Component({
   selector: 'app-order-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, TomanPipe],
+  imports: [CommonModule, FormsModule, RouterLink, TomanPipe, NgSelectModule],
   template: `
     <div class="mx-auto max-w-3xl space-y-6">
       <div class="flex items-center gap-3">
@@ -32,12 +33,21 @@ interface DraftLine {
         <div class="grid gap-5 sm:grid-cols-2">
           <div>
             <label class="field-label">مشتری</label>
-            <select class="field-input" [(ngModel)]="customerId">
-              <option [ngValue]="null">انتخاب مشتری...</option>
-              @for (c of customers(); track c.id) {
-                <option [ngValue]="c.id">{{ c.name }} ({{ c.email }})</option>
-              }
-            </select>
+            <ng-select
+              class="rtl-select"
+              [items]="customers()"
+              bindLabel="name"
+              bindValue="id"
+              [searchable]="true"
+              [clearable]="true"
+              placeholder="جستجو و انتخاب مشتری..."
+              notFoundText="مشتری‌ای یافت نشد"
+              [(ngModel)]="customerId"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.name }} <span class="text-ink-400">({{ item.email }})</span>
+              </ng-template>
+            </ng-select>
           </div>
           <div>
             <label class="field-label">آدرس ارسال (اختیاری)</label>
@@ -57,12 +67,22 @@ interface DraftLine {
         <div class="flex flex-wrap items-end gap-3 border-b border-ink-100 pb-4">
           <div class="min-w-[220px] flex-1">
             <label class="field-label">محصول</label>
-            <select class="field-input" [(ngModel)]="selectedProductId">
-              <option [ngValue]="null">انتخاب محصول...</option>
-              @for (p of availableProducts(); track p.id) {
-                <option [ngValue]="p.id">{{ p.name }} — {{ p.price | toman }} (موجودی: {{ p.stock }})</option>
-              }
-            </select>
+            <ng-select
+              class="rtl-select"
+              [items]="availableProducts()"
+              bindLabel="name"
+              bindValue="id"
+              [searchable]="true"
+              [clearable]="true"
+              placeholder="جستجو و انتخاب محصول..."
+              notFoundText="محصولی یافت نشد"
+              [(ngModel)]="selectedProductId"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.name }} — {{ item.price | toman }}
+                <span class="text-ink-400">(موجودی: {{ item.stock }})</span>
+              </ng-template>
+            </ng-select>
           </div>
           <div class="w-28">
             <label class="field-label">تعداد</label>

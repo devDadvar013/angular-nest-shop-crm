@@ -216,9 +216,15 @@ export class ProductListComponent {
       page: this.currentPage,
       per_page: 15,
     };
-    this.products.list(query).subscribe((res) => {
-      this.page.set(res);
-      this.loading.set(false);
+    this.products.list(query).subscribe({
+      next: (res) => {
+        this.page.set(res);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.page.set({ data: [], total: 0, current_page: 1, last_page: 1, per_page: 15, from: null, to: null });
+        this.loading.set(false);
+      },
     });
   }
 

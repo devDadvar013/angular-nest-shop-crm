@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '@ng-select/ng-select/themes/default.theme.css';
+
 @layer base {
   html, body {
     height: 100%;
@@ -41,5 +43,33 @@
   }
   .badge {
     @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  /* ng-select: RTL + brand theming to match .field-input */
+  .rtl-select {
+    direction: rtl;
+    text-align: right;
+
+    .ng-select-container {
+      @apply rounded-lg border-ink-200 text-sm text-ink-900 min-h-[38px];
+    }
+    &.ng-select-focused .ng-select-container {
+      @apply border-brand-500 shadow-none ring-2 ring-brand-100;
+    }
+    .ng-dropdown-panel {
+      @apply rounded-lg border-ink-200 text-sm;
+      direction: rtl;
+      text-align: right;
+    }
+    .ng-dropdown-panel .ng-option.ng-option-marked,
+    .ng-dropdown-panel .ng-option.ng-option-selected {
+      @apply bg-brand-50 text-brand-700;
+    }
+    .ng-arrow-wrapper {
+      transform: scaleX(-1);
+    }
+    .ng-clear-wrapper {
+      order: -1;
+    }
   }
 }

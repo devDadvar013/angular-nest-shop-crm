@@ -164,9 +164,25 @@ export class OrderListComponent {
       page: this.currentPage,
       per_page: 15,
     };
-    this.orders.list(query).subscribe((res) => {
-      this.page.set(res);
-      this.loading.set(false);
+    this.orders.list(query).subscribe({
+      next: (res) => {
+        this.page.set(res);
+        this.loading.set(false);
+      },
+      error: () => {
+        // Keep the list empty instead of hanging on "در حال بارگذاری..." forever,
+        // and don't let a stale/invalid response reach the @for loop.
+        this.page.set({
+          data: [],
+          total: 0,
+          current_page: 1,
+          last_page: 1,
+          per_page: 15,
+          from: null,
+          to: null,
+        });
+        this.loading.set(false);
+      },
     });
   }
 }

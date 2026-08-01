@@ -140,9 +140,15 @@ export class CustomerListComponent {
   private load(): void {
     this.loading.set(true);
     const query: ListCustomersQuery = { search: this.search || undefined, page: this.currentPage, per_page: 15 };
-    this.customers.list(query).subscribe((res) => {
-      this.page.set(res);
-      this.loading.set(false);
+    this.customers.list(query).subscribe({
+      next: (res) => {
+        this.page.set(res);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.page.set({ data: [], total: 0, current_page: 1, last_page: 1, per_page: 15, from: null, to: null });
+        this.loading.set(false);
+      },
     });
   }
 }

@@ -25,7 +25,7 @@ import { ToastService } from '../../../core/services/toast.service';
               id="email"
               type="email"
               class="field-input"
-              placeholder="admin@shop.test"
+              placeholder="admin@shop.io"
               formControlName="email"
               autocomplete="username"
             />
@@ -58,7 +58,7 @@ import { ToastService } from '../../../core/services/toast.service';
           </button>
 
           <p class="text-center text-xs text-ink-400">
-            کاربر پیش‌فرض: admin&#64;shop.test / password
+            کاربر پیش‌فرض: admin&#64;shop.io / password
           </p>
         </form>
       </div>
@@ -75,7 +75,7 @@ export class LoginComponent {
   readonly loading = signal(false);
 
   readonly form = this.fb.nonNullable.group({
-    email: ['admin@shop.test', [Validators.required, Validators.email]],
+    email: ['admin@shop.io', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
 
