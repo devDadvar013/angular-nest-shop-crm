@@ -49,7 +49,7 @@ import { StatusBadgeComponent } from '../../../shared/components/status-badge.co
             <label class="field-label">جستجو (شماره سفارش)</label>
             <input class="field-input" placeholder="ORD-20260101-0001" [(ngModel)]="search" (ngModelChange)="onFilterChange()" />
           </div>
-          <div>
+          <div class="min-w-[180px]">
             <label class="field-label">وضعیت</label>
             <select class="field-input" [(ngModel)]="status" (ngModelChange)="onFilterChange()">
               <option [ngValue]="undefined">همه</option>

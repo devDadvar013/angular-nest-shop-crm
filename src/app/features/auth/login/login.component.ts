@@ -58,7 +58,7 @@ import { ToastService } from '../../../core/services/toast.service';
           </button>
 
           <p class="text-center text-xs text-ink-400">
-            کاربر پیش‌فرض: admin&#64;shop.io / password
+            نام کاربری و رمز عبور به‌صورت پیش‌فرض وارد شده — فقط کافیه روی «ورود» کلیک کنید.
           </p>
         </form>
       </div>

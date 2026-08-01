@@ -49,7 +49,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
             <label class="field-label">جستجو</label>
             <input class="field-input" placeholder="نام، SKU یا توضیحات..." [(ngModel)]="search" (ngModelChange)="onFilterChange()" />
           </div>
-          <div>
+          <div class="min-w-[180px]">
             <label class="field-label">مرتب‌سازی</label>
             <select class="field-input" [(ngModel)]="sort" (ngModelChange)="onFilterChange()">
               <option value="latest">جدیدترین</option>
