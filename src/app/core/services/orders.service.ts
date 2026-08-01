@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   ApiEnvelope,
@@ -38,7 +38,9 @@ export class OrdersService {
   }
 
   statuses(): Observable<OrderStatusOption[]> {
-    return this.http.get<OrderStatusOption[]>(`${this.baseUrl}/statuses/list`);
+    return this.http
+      .get<ApiEnvelope<OrderStatusOption[]>>(`${this.baseUrl}/statuses/list`)
+      .pipe(map((res) => res.data));
   }
 
   stats(): Observable<ApiEnvelope<OrderStats>> {

@@ -150,10 +150,16 @@ export class OrderDetailComponent {
 
   private load(): void {
     this.loading.set(true);
-    this.ordersService.findOne(this.orderId).subscribe((res) => {
-      this.order.set(res.data);
-      this.statusSelection = res.data.status;
-      this.loading.set(false);
+    this.ordersService.findOne(this.orderId).subscribe({
+      next: (res) => {
+        this.order.set(res.data);
+        this.statusSelection = res.data.status;
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+        this.toast.error('بارگذاری سفارش با خطا مواجه شد.');
+      },
     });
   }
 }

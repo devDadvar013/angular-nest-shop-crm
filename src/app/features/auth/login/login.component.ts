@@ -76,7 +76,7 @@ export class LoginComponent {
 
   readonly form = this.fb.nonNullable.group({
     email: ['admin@shop.io', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
+    password: ['password', [Validators.required]],
   });
 
   submit(): void {
