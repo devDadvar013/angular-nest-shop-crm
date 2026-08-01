@@ -58,14 +58,6 @@ import { StatusBadgeComponent } from '../../../shared/components/status-badge.co
               }
             </select>
           </div>
-          <div>
-            <label class="field-label">از تاریخ</label>
-            <input type="date" class="field-input" [(ngModel)]="dateFrom" (ngModelChange)="onFilterChange()" />
-          </div>
-          <div>
-            <label class="field-label">تا تاریخ</label>
-            <input type="date" class="field-input" [(ngModel)]="dateTo" (ngModelChange)="onFilterChange()" />
-          </div>
         </div>
       </div>
 
@@ -130,8 +122,6 @@ export class OrderListComponent {
 
   search = '';
   status?: OrderStatus;
-  dateFrom = '';
-  dateTo = '';
   private currentPage = 1;
   private searchDebounce?: ReturnType<typeof setTimeout>;
 
@@ -159,8 +149,6 @@ export class OrderListComponent {
     const query: ListOrdersQuery = {
       search: this.search || undefined,
       status: this.status,
-      date_from: this.dateFrom || undefined,
-      date_to: this.dateTo || undefined,
       page: this.currentPage,
       per_page: 15,
     };
