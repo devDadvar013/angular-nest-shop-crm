@@ -50,22 +50,6 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
             <input class="field-input" placeholder="نام، SKU یا توضیحات..." [(ngModel)]="search" (ngModelChange)="onFilterChange()" />
           </div>
           <div>
-            <label class="field-label">وضعیت</label>
-            <select class="field-input" [(ngModel)]="isActive" (ngModelChange)="onFilterChange()">
-              <option [ngValue]="undefined">همه</option>
-              <option [ngValue]="true">فعال</option>
-              <option [ngValue]="false">غیرفعال</option>
-            </select>
-          </div>
-          <div>
-            <label class="field-label">موجودی</label>
-            <select class="field-input" [(ngModel)]="inStock" (ngModelChange)="onFilterChange()">
-              <option [ngValue]="undefined">همه</option>
-              <option [ngValue]="true">موجود</option>
-              <option [ngValue]="false">ناموجود</option>
-            </select>
-          </div>
-          <div>
             <label class="field-label">مرتب‌سازی</label>
             <select class="field-input" [(ngModel)]="sort" (ngModelChange)="onFilterChange()">
               <option value="latest">جدیدترین</option>
@@ -167,8 +151,6 @@ export class ProductListComponent {
   readonly toDelete = signal<Product | null>(null);
 
   search = '';
-  isActive?: boolean;
-  inStock?: boolean;
   sort: ProductSort = 'latest';
   private currentPage = 1;
   private searchDebounce?: ReturnType<typeof setTimeout>;
@@ -210,8 +192,6 @@ export class ProductListComponent {
     this.loading.set(true);
     const query: ListProductsQuery = {
       search: this.search || undefined,
-      is_active: this.isActive,
-      in_stock: this.inStock,
       sort: this.sort,
       page: this.currentPage,
       per_page: 15,
