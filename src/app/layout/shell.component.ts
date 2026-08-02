@@ -26,7 +26,7 @@ interface NavItem {
         <div class="flex h-16 items-center gap-3 border-b border-ink-100 px-5">
           <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-sm font-bold text-white shadow-sm">ش</div>
           <div>
-            <p class="text-sm font-bold text-ink-900 leading-tight">شاپ سی‌آرام</p>
+            <p class="text-sm font-bold text-ink-900 leading-tight">ShopOrders</p>
             <p class="text-[11px] text-ink-400 leading-tight">مدیریت فروشگاه</p>
           </div>
         </div>

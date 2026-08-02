@@ -21,7 +21,7 @@ import { ToastService } from '../../../core/services/toast.service';
           <div class="flex items-center gap-3">
             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm text-xl font-bold shadow-lg">ش</div>
             <div>
-              <p class="text-lg font-bold">شاپ سی‌آرام</p>
+              <p class="text-lg font-bold">ShopOrders</p>
               <p class="text-xs text-white/70">سیستم مدیریت فروشگاه</p>
             </div>
           </div>

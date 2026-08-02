@@ -6,7 +6,7 @@ export const routes: Routes = [
     path: 'login',
     canActivate: [guestGuard],
     loadComponent: () => import('./features/auth/login/login.component').then((m) => m.LoginComponent),
-    title: 'ورود | Shop CRM',
+    title: 'ورود | ShopOrders',
   },
   {
     path: '',
@@ -18,7 +18,7 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () =>
           import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
-        title: 'داشبورد | Shop CRM',
+        title: 'داشبورد | ShopOrders',
       },
       {
         path: 'products',
@@ -26,7 +26,7 @@ export const routes: Routes = [
           import('./features/products/list/product-list.component').then(
             (m) => m.ProductListComponent,
           ),
-        title: 'محصولات | Shop CRM',
+        title: 'محصولات | ShopOrders',
       },
       {
         path: 'products/new',
@@ -34,7 +34,7 @@ export const routes: Routes = [
           import('./features/products/form/product-form.component').then(
             (m) => m.ProductFormComponent,
           ),
-        title: 'محصول جدید | Shop CRM',
+        title: 'محصول جدید | ShopOrders',
       },
       {
         path: 'products/:id/edit',
@@ -42,7 +42,7 @@ export const routes: Routes = [
           import('./features/products/form/product-form.component').then(
             (m) => m.ProductFormComponent,
           ),
-        title: 'ویرایش محصول | Shop CRM',
+        title: 'ویرایش محصول | ShopOrders',
       },
       {
         path: 'customers',
@@ -50,7 +50,7 @@ export const routes: Routes = [
           import('./features/customers/list/customer-list.component').then(
             (m) => m.CustomerListComponent,
           ),
-        title: 'مشتریان | Shop CRM',
+        title: 'مشتریان | ShopOrders',
       },
       {
         path: 'customers/new',
@@ -58,7 +58,7 @@ export const routes: Routes = [
           import('./features/customers/form/customer-form.component').then(
             (m) => m.CustomerFormComponent,
           ),
-        title: 'مشتری جدید | Shop CRM',
+        title: 'مشتری جدید | ShopOrders',
       },
       {
         path: 'customers/:id/edit',
@@ -66,19 +66,19 @@ export const routes: Routes = [
           import('./features/customers/form/customer-form.component').then(
             (m) => m.CustomerFormComponent,
           ),
-        title: 'ویرایش مشتری | Shop CRM',
+        title: 'ویرایش مشتری | ShopOrders',
       },
       {
         path: 'orders',
         loadComponent: () =>
           import('./features/orders/list/order-list.component').then((m) => m.OrderListComponent),
-        title: 'سفارش‌ها | Shop CRM',
+        title: 'سفارش‌ها | ShopOrders',
       },
       {
         path: 'orders/new',
         loadComponent: () =>
           import('./features/orders/form/order-form.component').then((m) => m.OrderFormComponent),
-        title: 'سفارش جدید | Shop CRM',
+        title: 'سفارش جدید | ShopOrders',
       },
       {
         path: 'orders/:id',
@@ -86,7 +86,7 @@ export const routes: Routes = [
           import('./features/orders/detail/order-detail.component').then(
             (m) => m.OrderDetailComponent,
           ),
-        title: 'جزئیات سفارش | Shop CRM',
+        title: 'جزئیات سفارش | ShopOrders',
       },
     ],
   },
