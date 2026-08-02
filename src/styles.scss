@@ -15,6 +15,15 @@
       radial-gradient(at 100% 100%, rgba(46, 107, 97, 0.04) 0px, transparent 50%);
     background-attachment: fixed;
   }
+  /* Kill the default black browser focus outline on form elements.
+     We still keep a clear focus indicator via the border color change. */
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
   * {
     scrollbar-width: thin;
     scrollbar-color: #c5c9ca transparent;
@@ -57,7 +66,13 @@
     @apply block text-sm font-medium text-ink-700 mb-1.5;
   }
   .field-input {
-    @apply w-full rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:outline-none transition-all hover:border-ink-300;
+    @apply w-full rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm text-ink-900 placeholder:text-ink-400 focus:border-brand-500 transition-all hover:border-ink-300;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .field-input:focus {
+    outline: none !important;
+    box-shadow: none !important;
   }
   select.field-input {
     appearance: none;
@@ -104,9 +119,18 @@
 
     .ng-select-container {
       @apply rounded-lg border-ink-200 text-sm text-ink-900 min-h-[38px] hover:border-ink-300;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .ng-select-container:focus,
+    .ng-select-container *:focus {
+      outline: none !important;
+      box-shadow: none !important;
     }
     &.ng-select-focused .ng-select-container {
-      @apply border-brand-500 shadow-none;
+      @apply border-brand-500;
+      outline: none !important;
+      box-shadow: none !important;
     }
     .ng-dropdown-panel {
       @apply rounded-lg border-ink-200 text-sm shadow-lg;

@@ -61,7 +61,7 @@ import { NumberFormatDirective } from '../../../shared/directives/number-format.
             </div>
             <div>
               <label class="field-label" for="stock">موجودی</label>
-              <input id="stock" type="text" inputmode="numeric" class="field-input" formControlName="stock" appNumberFormat />
+              <input id="stock" type="number" inputmode="numeric" class="field-input" formControlName="stock" min="0" step="1" />
               @if (form.controls.stock.touched && form.controls.stock.invalid) {
                 <p class="mt-1 text-xs text-rose-600">موجودی باید عددی صحیح و غیرمنفی باشد.</p>
               }

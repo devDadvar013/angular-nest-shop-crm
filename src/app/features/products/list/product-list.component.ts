@@ -119,7 +119,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
                     <td class="px-4 py-3 font-medium text-ink-800">{{ p.price | toman }}</td>
                     <td class="px-4 py-3">
                       <span [class]="p.is_low_stock ? 'text-amber-600 font-semibold' : p.stock === 0 ? 'text-rose-600 font-semibold' : 'text-ink-700'">
-                        {{ p.stock.toLocaleString('fa-IR') }}
+                        {{ p.stock.toLocaleString('fa-IR', { useGrouping: false }) }}
                       </span>
                     </td>
                     <td class="px-4 py-3">
@@ -161,7 +161,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
                       <div>
                         <p class="text-sm font-semibold text-ink-800">{{ p.price | toman }}</p>
                         <p class="text-xs" [class]="p.is_low_stock ? 'text-amber-600' : p.stock === 0 ? 'text-rose-600' : 'text-ink-500'">
-                          موجودی: {{ p.stock.toLocaleString('fa-IR') }}
+                          موجودی: {{ p.stock.toLocaleString('fa-IR', { useGrouping: false }) }}
                         </p>
                       </div>
                       <div class="flex gap-1">
