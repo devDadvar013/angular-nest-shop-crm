@@ -10,17 +10,22 @@ import { ToastService } from '../../../core/services/toast.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
-    <div class="mx-auto max-w-2xl space-y-6">
+    <div class="mx-auto max-w-2xl space-y-6 animate-fade-in">
       <div class="flex items-center gap-3">
-        <a routerLink="/products" class="btn-ghost !px-2">→</a>
+        <a routerLink="/products" class="btn-ghost !px-2.5" aria-label="بازگشت">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </a>
         <div>
-          <h1 class="text-xl font-bold text-ink-900">{{ isEdit() ? 'ویرایش محصول' : 'محصول جدید' }}</h1>
-          <p class="text-sm text-ink-500">اطلاعات محصول را وارد کنید</p>
+          <h1 class="text-2xl font-bold text-ink-900">{{ isEdit() ? 'ویرایش محصول' : 'محصول جدید' }}</h1>
+          <p class="mt-1 text-sm text-ink-500">اطلاعات محصول را وارد کنید</p>
         </div>
       </div>
 
       @if (loading()) {
-        <div class="card h-64 animate-pulse bg-ink-100"></div>
+        <div class="card h-64 animate-pulse bg-gradient-to-br from-ink-100 to-ink-50"></div>
       } @else {
         <form class="card space-y-5 p-6" [formGroup]="form" (ngSubmit)="submit()">
           <div class="grid gap-5 sm:grid-cols-2">
@@ -33,7 +38,7 @@ import { ToastService } from '../../../core/services/toast.service';
             </div>
             <div>
               <label class="field-label" for="sku">کد محصول (SKU)</label>
-              <input id="sku" class="field-input" formControlName="sku" placeholder="LP-ASUS-VB15" />
+              <input id="sku" class="field-input font-mono" formControlName="sku" placeholder="LP-ASUS-VB15" />
               @if (form.controls.sku.touched && form.controls.sku.invalid) {
                 <p class="mt-1 text-xs text-rose-600">SKU الزامی است.</p>
               }
@@ -64,21 +69,29 @@ import { ToastService } from '../../../core/services/toast.service';
 
           <div>
             <label class="field-label" for="image_url">آدرس تصویر (اختیاری)</label>
-            <input id="image_url" class="field-input" formControlName="image_url" placeholder="https://..." />
+            <input id="image_url" class="field-input" formControlName="image_url" placeholder="https://..." dir="ltr" />
             @if (form.controls.image_url.touched && form.controls.image_url.invalid) {
               <p class="mt-1 text-xs text-rose-600">آدرس تصویر معتبر نیست.</p>
             }
           </div>
 
-          <label class="flex items-center gap-2">
+          <label class="flex cursor-pointer items-center gap-3 rounded-lg border border-ink-200 bg-ink-50/50 p-3 transition-colors hover:bg-ink-50">
             <input type="checkbox" formControlName="is_active" class="h-4 w-4 rounded border-ink-300 text-brand-600 focus:ring-brand-500" />
-            <span class="text-sm text-ink-700">محصول فعال است</span>
+            <div>
+              <p class="text-sm font-medium text-ink-800">محصول فعال است</p>
+              <p class="text-xs text-ink-500">محصولات غیرفعال در لیست سفارش‌ها نمایش داده نمی‌شوند.</p>
+            </div>
           </label>
 
-          <div class="flex justify-end gap-2 pt-2">
+          <div class="flex flex-col-reverse gap-2 border-t border-ink-100 pt-4 sm:flex-row sm:justify-end">
             <a routerLink="/products" class="btn-secondary">انصراف</a>
             <button type="submit" class="btn-primary" [disabled]="form.invalid || saving()">
-              {{ saving() ? 'در حال ذخیره...' : isEdit() ? 'ذخیره تغییرات' : 'ایجاد محصول' }}
+              @if (saving()) {
+                <span class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
+                <span>در حال ذخیره...</span>
+              } @else {
+                <span>{{ isEdit() ? 'ذخیره تغییرات' : 'ایجاد محصول' }}</span>
+              }
             </button>
           </div>
         </form>

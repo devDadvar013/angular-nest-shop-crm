@@ -37,6 +37,12 @@ module.exports = {
       },
       boxShadow: {
         card: "0 1px 2px 0 rgb(0 0 0 / 0.04), 0 1px 8px -2px rgb(0 0 0 / 0.06)",
+        "card-hover": "0 4px 6px -1px rgb(0 0 0 / 0.06), 0 8px 24px -4px rgb(0 0 0 / 0.08)",
+        soft: "0 2px 4px 0 rgb(0 0 0 / 0.03)",
+      },
+      animation: {
+        "fade-in": "fadeIn 0.3s ease-out",
+        "slide-up": "slideUp 0.4s ease-out",
       },
     },
   },

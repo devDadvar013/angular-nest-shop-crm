@@ -15,13 +15,18 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, TomanPipe, FaDatePipe, StatusBadgeComponent, ConfirmDialogComponent],
   template: `
-    <div class="mx-auto max-w-3xl space-y-6">
+    <div class="mx-auto max-w-3xl space-y-6 animate-fade-in">
       <div class="flex items-center gap-3">
-        <a routerLink="/orders" class="btn-ghost !px-2">→</a>
+        <a routerLink="/orders" class="btn-ghost !px-2.5" aria-label="بازگشت">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </a>
         @if (order(); as o) {
           <div>
-            <h1 class="text-xl font-bold text-ink-900">سفارش {{ o.order_number }}</h1>
-            <p class="text-sm text-ink-500">ثبت‌شده در {{ o.created_at | faDate }}</p>
+            <h1 class="text-2xl font-bold text-ink-900">سفارش <span class="font-mono text-brand-600">{{ o.order_number }}</span></h1>
+            <p class="mt-1 text-sm text-ink-500">ثبت‌شده در {{ o.created_at | faDate }}</p>
           </div>
         }
       </div>
@@ -31,21 +36,30 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
           <div class="card p-5">
             <h2 class="mb-3 text-sm font-semibold text-ink-800">مشتری</h2>
             @if (o.customer; as c) {
-              <p class="font-medium text-ink-800">{{ c.name }}</p>
-              <p class="text-sm text-ink-500">{{ c.email }}</p>
-              @if (c.phone) { <p class="text-sm text-ink-500">{{ c.phone }}</p> }
+              <div class="flex items-start gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-100 to-brand-200 text-base font-bold text-brand-700">
+                  {{ c.name.charAt(0) }}
+                </div>
+                <div>
+                  <p class="font-medium text-ink-800">{{ c.name }}</p>
+                  <p class="text-sm text-ink-500" dir="ltr">{{ c.email }}</p>
+                  @if (c.phone) { <p class="text-sm text-ink-500" dir="ltr">{{ c.phone }}</p> }
+                </div>
+              </div>
             } @else {
               <p class="text-sm text-ink-400">مشتری حذف‌شده</p>
             }
             @if (o.shipping_address) {
-              <p class="mt-3 text-xs text-ink-400">آدرس ارسال</p>
-              <p class="text-sm text-ink-700">{{ o.shipping_address }}</p>
+              <div class="mt-4 border-t border-ink-100 pt-3">
+                <p class="text-xs font-medium text-ink-400 mb-1">آدرس ارسال</p>
+                <p class="text-sm text-ink-700 leading-6">{{ o.shipping_address }}</p>
+              </div>
             }
           </div>
 
           <div class="card p-5">
             <h2 class="mb-3 text-sm font-semibold text-ink-800">وضعیت سفارش</h2>
-            <div class="mb-3"><app-status-badge [status]="o.status" [label]="o.status_label" /></div>
+            <div class="mb-4"><app-status-badge [status]="o.status" [label]="o.status_label" /></div>
             <label class="field-label">تغییر وضعیت</label>
             <select class="field-input" [(ngModel)]="statusSelection" (ngModelChange)="updateStatus()">
               @for (opt of statusOptions(); track opt.value) {
@@ -53,21 +67,24 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
               }
             </select>
             @if (o.notes) {
-              <p class="mt-3 text-xs text-ink-400">یادداشت</p>
-              <p class="text-sm text-ink-700">{{ o.notes }}</p>
+              <div class="mt-4 border-t border-ink-100 pt-3">
+                <p class="text-xs font-medium text-ink-400 mb-1">یادداشت</p>
+                <p class="text-sm text-ink-700 leading-6">{{ o.notes }}</p>
+              </div>
             }
           </div>
         </div>
 
         <div class="card p-5">
           <h2 class="mb-4 text-sm font-semibold text-ink-800">اقلام سفارش</h2>
-          <table class="w-full text-sm">
-            <thead class="text-right text-xs text-ink-500">
+          <!-- Desktop table -->
+          <table class="hidden w-full text-sm sm:table">
+            <thead class="text-right text-xs uppercase tracking-wider text-ink-500">
               <tr>
-                <th class="py-2 font-medium">محصول</th>
-                <th class="py-2 font-medium">قیمت واحد</th>
-                <th class="py-2 font-medium">تعداد</th>
-                <th class="py-2 font-medium">جمع</th>
+                <th class="py-2 font-semibold">محصول</th>
+                <th class="py-2 font-semibold">قیمت واحد</th>
+                <th class="py-2 font-semibold">تعداد</th>
+                <th class="py-2 font-semibold">جمع</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-ink-100">
@@ -81,19 +98,42 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
               }
             </tbody>
           </table>
-          <div class="mt-4 flex justify-end border-t border-ink-100 pt-4">
+
+          <!-- Mobile cards -->
+          <div class="grid gap-2 sm:hidden">
+            @for (item of o.items; track item.id) {
+              <div class="rounded-lg border border-ink-100 p-3">
+                <p class="font-medium text-ink-800">{{ item.product?.name ?? 'محصول حذف‌شده' }}</p>
+                <div class="mt-2 flex items-center justify-between text-sm">
+                  <span class="text-ink-500">{{ item.quantity.toLocaleString('fa-IR') }} × {{ item.unit_price | toman }}</span>
+                  <span class="font-semibold text-ink-800">{{ item.line_total | toman }}</span>
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="mt-4 flex items-center justify-between border-t border-ink-100 pt-4">
+            <span class="text-sm text-ink-500">{{ o.items?.length?.toLocaleString('fa-IR') ?? 0 }} آیتم</span>
             <div class="text-left">
               <p class="text-xs text-ink-500">جمع کل</p>
-              <p class="text-lg font-bold text-ink-900">{{ o.total_amount | toman }}</p>
+              <p class="text-xl font-bold text-brand-700">{{ o.total_amount | toman }}</p>
             </div>
           </div>
         </div>
 
         <div class="flex justify-end">
-          <button type="button" class="btn-danger" (click)="confirmOpen.set(true)">حذف سفارش</button>
+          <button type="button" class="btn-danger" (click)="confirmOpen.set(true)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/>
+              <path d="M10 11v6"/>
+              <path d="M14 11v6"/>
+            </svg>
+            <span>حذف سفارش</span>
+          </button>
         </div>
       } @else {
-        <div class="card h-64 animate-pulse bg-ink-100"></div>
+        <div class="card h-64 animate-pulse bg-gradient-to-br from-ink-100 to-ink-50"></div>
       }
     </div>
 

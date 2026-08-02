@@ -12,6 +12,7 @@ interface StatCard {
   value: string;
   icon: string;
   accent: string;
+  sub?: string;
 }
 
 @Component({
@@ -19,18 +20,18 @@ interface StatCard {
   standalone: true,
   imports: [CommonModule, RouterLink, TomanPipe, FaDatePipe, StatusBadgeComponent],
   template: `
-    <div class="space-y-6">
+    <div class="space-y-6 animate-fade-in">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 class="text-xl font-bold text-ink-900">داشبورد</h1>
-          <p class="text-sm text-ink-500">نمای کلی فروش و وضعیت فروشگاه</p>
+          <h1 class="text-2xl font-bold text-ink-900">داشبورد</h1>
+          <p class="mt-1 text-sm text-ink-500">نمای کلی فروش و وضعیت فروشگاه</p>
         </div>
-        <div class="flex gap-1 rounded-lg border border-ink-200 bg-white p-1">
+        <div class="flex gap-1 rounded-lg border border-ink-200 bg-white p-1 shadow-sm">
           @for (r of ranges; track r) {
             <button
               type="button"
-              class="rounded-md px-3 py-1.5 text-xs font-medium transition-colors"
-              [class]="range() === r ? 'bg-brand-600 text-white' : 'text-ink-600 hover:bg-ink-50'"
+              class="rounded-md px-3 py-1.5 text-xs font-medium transition-all"
+              [class]="range() === r ? 'bg-brand-600 text-white shadow-sm' : 'text-ink-600 hover:bg-ink-50'"
               (click)="setRange(r)"
             >
               {{ r }} روز
@@ -40,14 +41,16 @@ interface StatCard {
       </div>
 
       @if (summary(); as s) {
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-3 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
           @for (card of statCards(s); track card.label) {
-            <div class="card p-5">
+            <div class="stat-card" [style.color]="card.accent">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-medium text-ink-500">{{ card.label }}</span>
-                <span class="text-lg">{{ card.icon }}</span>
+                <span class="flex h-9 w-9 items-center justify-center rounded-lg text-lg" [style.background-color]="card.accent + '14'">
+                  {{ card.icon }}
+                </span>
               </div>
-              <p class="mt-2 text-2xl font-bold text-ink-900">{{ card.value }}</p>
+              <p class="mt-3 text-2xl font-bold text-ink-900">{{ card.value }}</p>
             </div>
           }
         </div>
@@ -55,30 +58,46 @@ interface StatCard {
         <div class="grid gap-4 lg:grid-cols-3">
           <div class="card p-5 lg:col-span-2">
             <div class="mb-4 flex items-center justify-between">
-              <h2 class="text-sm font-semibold text-ink-800">روند فروش</h2>
-              <span class="text-xs text-ink-400">{{ s.range_days }} روز اخیر</span>
+              <div>
+                <h2 class="text-sm font-semibold text-ink-800">روند فروش</h2>
+                <p class="text-xs text-ink-400">درآمد روزانه</p>
+              </div>
+              <span class="badge bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-200">{{ s.range_days }} روز اخیر</span>
             </div>
             @if (chartPoints().length > 1) {
-              <svg viewBox="0 0 600 180" class="w-full" preserveAspectRatio="none">
-                <polyline
-                  [attr.points]="chartPolyline()"
-                  fill="none"
-                  stroke="#2e6b61"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <polygon [attr.points]="chartArea()" fill="url(#grad)" opacity="0.25" />
-                <defs>
-                  <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#2e6b61" />
-                    <stop offset="100%" stop-color="#2e6b61" stop-opacity="0" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div class="mt-1 flex justify-between text-[11px] text-ink-400">
-                <span>{{ s.daily_revenue[0]?.date | faDate: false }}</span>
-                <span>{{ s.daily_revenue[s.daily_revenue.length - 1]?.date | faDate: false }}</span>
+              <div class="relative">
+                <svg viewBox="0 0 600 200" class="w-full" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#2e6b61" stop-opacity="0.3" />
+                      <stop offset="100%" stop-color="#2e6b61" stop-opacity="0" />
+                    </linearGradient>
+                    <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#3d867a" />
+                      <stop offset="100%" stop-color="#27564f" />
+                    </linearGradient>
+                  </defs>
+                  <!-- grid lines -->
+                  <line x1="0" y1="40" x2="600" y2="40" stroke="#e2e4e4" stroke-dasharray="2,4" stroke-width="1" />
+                  <line x1="0" y1="100" x2="600" y2="100" stroke="#e2e4e4" stroke-dasharray="2,4" stroke-width="1" />
+                  <line x1="0" y1="160" x2="600" y2="160" stroke="#e2e4e4" stroke-dasharray="2,4" stroke-width="1" />
+                  <polygon [attr.points]="chartArea()" fill="url(#grad)" />
+                  <polyline
+                    [attr.points]="chartPolyline()"
+                    fill="none"
+                    stroke="url(#lineGrad)"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  @for (pt of chartDotPoints(); track pt.x) {
+                    <circle [attr.cx]="pt.x" [attr.cy]="pt.y" r="3" fill="white" stroke="#2e6b61" stroke-width="2" />
+                  }
+                </svg>
+              </div>
+              <div class="mt-2 flex justify-between text-[11px] text-ink-400">
+                <span>{{ s.daily_revenue[0].date | faDate: false }}</span>
+                <span>{{ s.daily_revenue[s.daily_revenue.length - 1].date | faDate: false }}</span>
               </div>
             } @else {
               <p class="py-10 text-center text-sm text-ink-400">داده‌ای برای نمایش نمودار موجود نیست.</p>
@@ -91,7 +110,7 @@ interface StatCard {
               @for (entry of statusBreakdownEntries(s); track entry.key) {
                 <li class="flex items-center justify-between text-sm">
                   <app-status-badge [status]="entry.key" [label]="entry.label" />
-                  <span class="font-semibold text-ink-800">{{ entry.value }}</span>
+                  <span class="font-semibold text-ink-800">{{ entry.value.toLocaleString('fa-IR') }}</span>
                 </li>
               }
             </ul>
@@ -102,24 +121,31 @@ interface StatCard {
           <div class="card p-5">
             <div class="mb-4 flex items-center justify-between">
               <h2 class="text-sm font-semibold text-ink-800">سفارش‌های اخیر</h2>
-              <a routerLink="/orders" class="text-xs font-medium text-brand-600 hover:underline">مشاهده همه</a>
+              <a routerLink="/orders" class="text-xs font-medium text-brand-600 hover:underline">مشاهده همه ←</a>
             </div>
             @if (recentOrders().length === 0) {
-              <p class="py-6 text-center text-sm text-ink-400">سفارشی ثبت نشده است.</p>
+              <div class="flex flex-col items-center py-8 text-center">
+                <span class="text-3xl">📋</span>
+                <p class="mt-2 text-sm text-ink-400">سفارشی ثبت نشده است.</p>
+              </div>
             } @else {
               <ul class="divide-y divide-ink-100">
                 @for (order of recentOrders(); track order.id) {
-                  <li class="flex items-center justify-between py-3">
-                    <div>
-                      <a [routerLink]="['/orders', order.id]" class="text-sm font-medium text-ink-800 hover:text-brand-600">
-                        {{ order.order_number }}
-                      </a>
-                      <p class="text-xs text-ink-400">{{ order.customer?.name ?? 'مشتری حذف‌شده' }}</p>
-                    </div>
-                    <div class="text-left">
-                      <p class="text-sm font-semibold text-ink-800">{{ order.total_amount | toman }}</p>
-                      <app-status-badge [status]="order.status" [label]="order.status_label" />
-                    </div>
+                  <li class="py-3 first:pt-0 last:pb-0">
+                    <a [routerLink]="['/orders', order.id]" class="group flex items-center justify-between gap-3 rounded-md p-1 -m-1 transition-colors hover:bg-ink-50/50">
+                      <div class="min-w-0 flex-1">
+                        <p class="truncate text-sm font-medium text-ink-800 group-hover:text-brand-600">
+                          {{ order.order_number }}
+                        </p>
+                        <p class="text-xs text-ink-400 truncate">{{ order.customer?.name ?? 'مشتری حذف‌شده' }}</p>
+                      </div>
+                      <div class="text-left shrink-0">
+                        <p class="text-sm font-semibold text-ink-800">{{ order.total_amount | toman }}</p>
+                        <div class="mt-1">
+                          <app-status-badge [status]="order.status" [label]="order.status_label" />
+                        </div>
+                      </div>
+                    </a>
                   </li>
                 }
               </ul>
@@ -129,19 +155,25 @@ interface StatCard {
           <div class="card p-5">
             <div class="mb-4 flex items-center justify-between">
               <h2 class="text-sm font-semibold text-ink-800">پرفروش‌ترین محصولات</h2>
-              <a routerLink="/products" class="text-xs font-medium text-brand-600 hover:underline">مشاهده همه</a>
+              <a routerLink="/products" class="text-xs font-medium text-brand-600 hover:underline">مشاهده همه ←</a>
             </div>
             @if (topProducts().length === 0) {
-              <p class="py-6 text-center text-sm text-ink-400">هنوز فروشی ثبت نشده است.</p>
+              <div class="flex flex-col items-center py-8 text-center">
+                <span class="text-3xl">🏆</span>
+                <p class="mt-2 text-sm text-ink-400">هنوز فروشی ثبت نشده است.</p>
+              </div>
             } @else {
               <ul class="divide-y divide-ink-100">
                 @for (p of topProducts(); track p.id) {
-                  <li class="flex items-center justify-between py-3 text-sm">
-                    <div>
-                      <p class="font-medium text-ink-800">{{ p.name }}</p>
-                      <p class="text-xs text-ink-400">{{ p.sku }} · {{ p.sold }} فروش</p>
+                  <li class="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+                    <div class="flex min-w-0 flex-1 items-center gap-3">
+                      <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-ink-100 to-ink-200 text-base">📦</div>
+                      <div class="min-w-0 flex-1">
+                        <p class="truncate text-sm font-medium text-ink-800">{{ p.name }}</p>
+                        <p class="text-xs text-ink-400 truncate">{{ p.sku }} · {{ p.sold.toLocaleString('fa-IR') }} فروش</p>
+                      </div>
                     </div>
-                    <p class="font-semibold text-ink-800">{{ p.revenue | toman }}</p>
+                    <p class="shrink-0 text-sm font-semibold text-ink-800">{{ p.revenue | toman }}</p>
                   </li>
                 }
               </ul>
@@ -149,9 +181,9 @@ interface StatCard {
           </div>
         </div>
       } @else {
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-3 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
           @for (i of [1, 2, 3, 4]; track i) {
-            <div class="card h-24 animate-pulse bg-ink-100"></div>
+            <div class="card h-24 animate-pulse bg-gradient-to-br from-ink-100 to-ink-50"></div>
           }
         </div>
       }
@@ -176,14 +208,25 @@ export class DashboardComponent {
     const max = Math.max(...points.map((p) => p.total), 1);
     const stepX = 600 / (points.length - 1);
     return points
-      .map((p, i) => `${(i * stepX).toFixed(1)},${(170 - (p.total / max) * 160).toFixed(1)}`)
+      .map((p, i) => `${(i * stepX).toFixed(1)},${(180 - (p.total / max) * 160).toFixed(1)}`)
       .join(' ');
   });
 
   readonly chartArea = computed(() => {
     const line = this.chartPolyline();
     if (!line) return '';
-    return `0,170 ${line} 600,170`;
+    return `0,180 ${line} 600,180`;
+  });
+
+  readonly chartDotPoints = computed(() => {
+    const points = this.chartPoints();
+    if (points.length < 2) return [];
+    const max = Math.max(...points.map((p) => p.total), 1);
+    const stepX = 600 / (points.length - 1);
+    return points.map((p, i) => ({
+      x: (i * stepX).toFixed(1),
+      y: (180 - (p.total / max) * 160).toFixed(1),
+    }));
   });
 
   constructor() {
@@ -197,13 +240,13 @@ export class DashboardComponent {
 
   statCards(s: DashboardSummary): StatCard[] {
     return [
-      { label: 'درآمد کل', value: s.total_revenue.toLocaleString('fa-IR') + ' تومان', icon: '💰', accent: 'brand' },
-      { label: 'تعداد سفارش‌ها', value: s.orders_count.toLocaleString('fa-IR'), icon: '🧾', accent: 'blue' },
-      { label: 'سفارش‌های در انتظار', value: s.pending_orders.toLocaleString('fa-IR'), icon: '⏳', accent: 'amber' },
-      { label: 'میانگین ارزش سفارش', value: s.average_order_value.toLocaleString('fa-IR') + ' تومان', icon: '📈', accent: 'emerald' },
-      { label: 'تعداد مشتریان', value: s.customers_count.toLocaleString('fa-IR'), icon: '👥', accent: 'indigo' },
-      { label: 'تعداد محصولات', value: s.products_count.toLocaleString('fa-IR'), icon: '📦', accent: 'slate' },
-      { label: 'موجودی کم', value: s.low_stock_count.toLocaleString('fa-IR'), icon: '⚠️', accent: 'rose' },
+      { label: 'درآمد کل', value: s.total_revenue.toLocaleString('fa-IR') + ' تومان', icon: '💰', accent: '#2e6b61' },
+      { label: 'تعداد سفارش‌ها', value: s.orders_count.toLocaleString('fa-IR'), icon: '🧾', accent: '#2563eb' },
+      { label: 'سفارش‌های در انتظار', value: s.pending_orders.toLocaleString('fa-IR'), icon: '⏳', accent: '#d97706' },
+      { label: 'میانگین ارزش سفارش', value: s.average_order_value.toLocaleString('fa-IR') + ' تومان', icon: '📈', accent: '#059669' },
+      { label: 'تعداد مشتریان', value: s.customers_count.toLocaleString('fa-IR'), icon: '👥', accent: '#4f46e5' },
+      { label: 'تعداد محصولات', value: s.products_count.toLocaleString('fa-IR'), icon: '📦', accent: '#475569' },
+      { label: 'موجودی کم', value: s.low_stock_count.toLocaleString('fa-IR'), icon: '⚠️', accent: '#e11d48' },
     ];
   }
 
@@ -218,7 +261,7 @@ export class DashboardComponent {
     return Object.entries(s.status_breakdown).map(([key, value]) => ({
       key: key as Order['status'],
       label: labels[key] ?? key,
-      value,
+      value: value as number,
     }));
   }
 

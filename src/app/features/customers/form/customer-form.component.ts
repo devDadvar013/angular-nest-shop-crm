@@ -10,17 +10,22 @@ import { ToastService } from '../../../core/services/toast.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
-    <div class="mx-auto max-w-xl space-y-6">
+    <div class="mx-auto max-w-xl space-y-6 animate-fade-in">
       <div class="flex items-center gap-3">
-        <a routerLink="/customers" class="btn-ghost !px-2">→</a>
+        <a routerLink="/customers" class="btn-ghost !px-2.5" aria-label="بازگشت">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </a>
         <div>
-          <h1 class="text-xl font-bold text-ink-900">{{ isEdit() ? 'ویرایش مشتری' : 'مشتری جدید' }}</h1>
-          <p class="text-sm text-ink-500">اطلاعات مشتری را وارد کنید</p>
+          <h1 class="text-2xl font-bold text-ink-900">{{ isEdit() ? 'ویرایش مشتری' : 'مشتری جدید' }}</h1>
+          <p class="mt-1 text-sm text-ink-500">اطلاعات مشتری را وارد کنید</p>
         </div>
       </div>
 
       @if (loading()) {
-        <div class="card h-56 animate-pulse bg-ink-100"></div>
+        <div class="card h-56 animate-pulse bg-gradient-to-br from-ink-100 to-ink-50"></div>
       } @else {
         <form class="card space-y-5 p-6" [formGroup]="form" (ngSubmit)="submit()">
           <div>
@@ -33,7 +38,7 @@ import { ToastService } from '../../../core/services/toast.service';
 
           <div>
             <label class="field-label" for="email">ایمیل</label>
-            <input id="email" type="email" class="field-input" formControlName="email" placeholder="example@mail.com" />
+            <input id="email" type="email" class="field-input" formControlName="email" placeholder="example@mail.com" dir="ltr" />
             @if (form.controls.email.touched && form.controls.email.invalid) {
               <p class="mt-1 text-xs text-rose-600">ایمیل معتبر وارد کنید.</p>
             }
@@ -41,7 +46,7 @@ import { ToastService } from '../../../core/services/toast.service';
 
           <div>
             <label class="field-label" for="phone">شماره تماس (اختیاری)</label>
-            <input id="phone" class="field-input" formControlName="phone" placeholder="0912xxxxxxx" />
+            <input id="phone" class="field-input" formControlName="phone" placeholder="0912xxxxxxx" dir="ltr" />
           </div>
 
           <div>
@@ -49,10 +54,15 @@ import { ToastService } from '../../../core/services/toast.service';
             <textarea id="address" class="field-input" rows="3" formControlName="address" placeholder="آدرس کامل..."></textarea>
           </div>
 
-          <div class="flex justify-end gap-2 pt-2">
+          <div class="flex flex-col-reverse gap-2 border-t border-ink-100 pt-4 sm:flex-row sm:justify-end">
             <a routerLink="/customers" class="btn-secondary">انصراف</a>
             <button type="submit" class="btn-primary" [disabled]="form.invalid || saving()">
-              {{ saving() ? 'در حال ذخیره...' : isEdit() ? 'ذخیره تغییرات' : 'ایجاد مشتری' }}
+              @if (saving()) {
+                <span class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
+                <span>در حال ذخیره...</span>
+              } @else {
+                <span>{{ isEdit() ? 'ذخیره تغییرات' : 'ایجاد مشتری' }}</span>
+              }
             </button>
           </div>
         </form>
