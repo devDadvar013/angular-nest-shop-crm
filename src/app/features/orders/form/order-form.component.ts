@@ -21,14 +21,14 @@ interface DraftLine {
   imports: [CommonModule, FormsModule, RouterLink, TomanPipe, NgSelectModule],
   template: `
     <div class="mx-auto max-w-3xl space-y-6 animate-fade-in">
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3" style="direction: ltr; justify-content: flex-end;">
         <a routerLink="/orders" class="btn-ghost !px-2.5 order-last" aria-label="بازگشت">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="12 5 19 12 12 19"/>
           </svg>
         </a>
-        <div>
+        <div dir="rtl">
           <h1 class="text-2xl font-bold text-ink-900">سفارش جدید</h1>
           <p class="mt-1 text-sm text-ink-500">مشتری و اقلام سفارش را انتخاب کنید</p>
         </div>
