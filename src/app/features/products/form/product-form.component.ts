@@ -4,11 +4,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductsService } from '../../../core/services/products.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { NumberFormatDirective } from '../../../shared/directives/number-format.directive';
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, NumberFormatDirective],
   template: `
     <div class="mx-auto max-w-2xl space-y-6 animate-fade-in">
       <div class="flex items-center gap-3">
@@ -53,14 +54,14 @@ import { ToastService } from '../../../core/services/toast.service';
           <div class="grid gap-5 sm:grid-cols-2">
             <div>
               <label class="field-label" for="price">قیمت (تومان)</label>
-              <input id="price" type="number" min="0" step="1000" class="field-input" formControlName="price" />
+              <input id="price" type="text" inputmode="numeric" class="field-input" formControlName="price" appNumberFormat />
               @if (form.controls.price.touched && form.controls.price.invalid) {
                 <p class="mt-1 text-xs text-rose-600">قیمت باید عددی مثبت باشد.</p>
               }
             </div>
             <div>
               <label class="field-label" for="stock">موجودی</label>
-              <input id="stock" type="number" min="0" step="1" class="field-input" formControlName="stock" />
+              <input id="stock" type="text" inputmode="numeric" class="field-input" formControlName="stock" appNumberFormat />
               @if (form.controls.stock.touched && form.controls.stock.invalid) {
                 <p class="mt-1 text-xs text-rose-600">موجودی باید عددی صحیح و غیرمنفی باشد.</p>
               }

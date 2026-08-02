@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
+import { ToastService } from '../core/services/toast.service';
 import { ToastContainerComponent } from '../shared/components/toast-container.component';
 
 interface NavItem {
@@ -43,12 +44,6 @@ interface NavItem {
             </a>
           }
         </nav>
-        <div class="absolute bottom-0 left-0 right-0 border-t border-ink-100 p-3">
-          <div class="rounded-lg bg-gradient-to-br from-brand-50 to-brand-100 p-3">
-            <p class="text-xs font-medium text-brand-800">نیاز به کمک؟</p>
-            <p class="mt-1 text-[11px] text-brand-700">مستندات و راهنمای استفاده در دسترستان است.</p>
-          </div>
-        </div>
       </aside>
 
       @if (sidebarOpen()) {
@@ -105,6 +100,8 @@ interface NavItem {
 })
 export class ShellComponent {
   readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
   readonly sidebarOpen = signal(false);
 
   readonly navItems: NavItem[] = [
@@ -121,7 +118,15 @@ export class ShellComponent {
 
   logout(): void {
     this.auth.logout().subscribe({
-      error: () => this.auth.logoutLocally(),
+      next: () => {
+        this.toast.info('با موفقیت خارج شدید.');
+        this.router.navigateByUrl('/login');
+      },
+      error: () => {
+        this.auth.logoutLocally();
+        this.toast.info('با موفقیت خارج شدید.');
+        this.router.navigateByUrl('/login');
+      },
     });
   }
 }
