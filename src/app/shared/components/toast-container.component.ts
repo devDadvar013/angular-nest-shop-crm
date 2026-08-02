@@ -8,10 +8,10 @@ import { ToastService } from '../../core/services/toast.service';
     <div class="pointer-events-none fixed inset-x-0 top-4 z-[100] flex flex-col items-center gap-2 px-4 sm:items-start sm:pl-4 sm:pr-6">
       @for (toast of toasts.toasts(); track toast.id) {
         <div
-          class="pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border px-4 py-3 shadow-lg backdrop-blur-sm transition-all animate-slide-up"
+          class="pointer-events-auto flex w-full max-w-sm items-center gap-3 rounded-xl border px-4 py-2.5 shadow-lg backdrop-blur-sm transition-all animate-slide-up"
           [class]="kindClass(toast.kind)"
         >
-          <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+          <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold"
                 [class]="iconClass(toast.kind)">
             @switch (toast.kind) {
               @case ('success') { <span>✓</span> }
@@ -19,7 +19,7 @@ import { ToastService } from '../../core/services/toast.service';
               @default { <span>ℹ</span> }
             }
           </span>
-          <p class="flex-1 text-sm leading-6">{{ toast.message }}</p>
+          <p class="flex-1 text-sm leading-5">{{ toast.message }}</p>
           <button
             type="button"
             class="shrink-0 rounded p-1 transition-colors hover:bg-black/5"
