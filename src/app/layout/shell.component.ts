@@ -19,8 +19,9 @@ interface NavItem {
     <div class="flex min-h-screen bg-ink-50">
       <!-- Sidebar (RTL: on the right side) -->
       <aside
-        class="fixed inset-y-0 right-0 z-40 w-72 shrink-0 translate-x-full border-l border-ink-100 bg-white shadow-xl transition-transform duration-300 ease-out lg:static lg:translate-x-0 lg:shadow-none"
+        class="fixed inset-y-0 right-0 z-40 w-72 shrink-0 border-l border-ink-100 bg-white shadow-xl transition-transform duration-300 ease-out lg:static lg:!translate-x-0 lg:shadow-none"
         [class.translate-x-0]="sidebarOpen()"
+        [class.translate-x-full]="!sidebarOpen()"
       >
         <div class="flex h-16 items-center gap-3 border-b border-ink-100 px-5">
           <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-sm font-bold text-white shadow-sm">ش</div>

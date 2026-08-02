@@ -6,7 +6,7 @@ export const routes: Routes = [
     path: 'login',
     canActivate: [guestGuard],
     loadComponent: () => import('./features/auth/login/login.component').then((m) => m.LoginComponent),
-    title: 'ورود | شاپ سی‌آرام',
+    title: 'ورود | Shop CRM',
   },
   {
     path: '',
@@ -18,7 +18,7 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () =>
           import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
-        title: 'داشبورد | شاپ سی‌آرام',
+        title: 'داشبورد | Shop CRM',
       },
       {
         path: 'products',
@@ -26,7 +26,7 @@ export const routes: Routes = [
           import('./features/products/list/product-list.component').then(
             (m) => m.ProductListComponent,
           ),
-        title: 'محصولات | شاپ سی‌آرام',
+        title: 'محصولات | Shop CRM',
       },
       {
         path: 'products/new',
@@ -34,7 +34,7 @@ export const routes: Routes = [
           import('./features/products/form/product-form.component').then(
             (m) => m.ProductFormComponent,
           ),
-        title: 'محصول جدید | شاپ سی‌آرام',
+        title: 'محصول جدید | Shop CRM',
       },
       {
         path: 'products/:id/edit',
@@ -42,7 +42,7 @@ export const routes: Routes = [
           import('./features/products/form/product-form.component').then(
             (m) => m.ProductFormComponent,
           ),
-        title: 'ویرایش محصول | شاپ سی‌آرام',
+        title: 'ویرایش محصول | Shop CRM',
       },
       {
         path: 'customers',
@@ -50,7 +50,7 @@ export const routes: Routes = [
           import('./features/customers/list/customer-list.component').then(
             (m) => m.CustomerListComponent,
           ),
-        title: 'مشتریان | شاپ سی‌آرام',
+        title: 'مشتریان | Shop CRM',
       },
       {
         path: 'customers/new',
@@ -58,7 +58,7 @@ export const routes: Routes = [
           import('./features/customers/form/customer-form.component').then(
             (m) => m.CustomerFormComponent,
           ),
-        title: 'مشتری جدید | شاپ سی‌آرام',
+        title: 'مشتری جدید | Shop CRM',
       },
       {
         path: 'customers/:id/edit',
@@ -66,19 +66,19 @@ export const routes: Routes = [
           import('./features/customers/form/customer-form.component').then(
             (m) => m.CustomerFormComponent,
           ),
-        title: 'ویرایش مشتری | شاپ سی‌آرام',
+        title: 'ویرایش مشتری | Shop CRM',
       },
       {
         path: 'orders',
         loadComponent: () =>
           import('./features/orders/list/order-list.component').then((m) => m.OrderListComponent),
-        title: 'سفارش‌ها | شاپ سی‌آرام',
+        title: 'سفارش‌ها | Shop CRM',
       },
       {
         path: 'orders/new',
         loadComponent: () =>
           import('./features/orders/form/order-form.component').then((m) => m.OrderFormComponent),
-        title: 'سفارش جدید | شاپ سی‌آرام',
+        title: 'سفارش جدید | Shop CRM',
       },
       {
         path: 'orders/:id',
@@ -86,7 +86,7 @@ export const routes: Routes = [
           import('./features/orders/detail/order-detail.component').then(
             (m) => m.OrderDetailComponent,
           ),
-        title: 'جزئیات سفارش | شاپ سی‌آرام',
+        title: 'جزئیات سفارش | Shop CRM',
       },
     ],
   },
